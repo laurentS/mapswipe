@@ -132,9 +132,10 @@ class Tutorial extends React.Component {
         NetInfo.getConnectionInfo().then((reach) => {
             GLOBAL.DB.handleSessionStart(reach).then(() => {
                 SplashScreen.hide();
+                console.log('session started, going to project nav');
                 parent.props.navigation.push('ProjectNav');
             }).catch((error) => {
-                console.log(error);
+                console.log('Error when tutorial mounted', error);
                 SplashScreen.hide();
                 parent.setState({
                     status: 'tutorial',

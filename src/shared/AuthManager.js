@@ -103,7 +103,9 @@ class AuthManager {
      */
 
     getUser() {
-        return this.firebase.auth().currentUser;
+        const user = this.firebase.auth().currentUser;
+        console.log('getUser', user);
+        return user;
     }
 
     /**
@@ -159,12 +161,12 @@ class AuthManager {
      */
 
     addListeners() {
-        console.log('adde listeners');
+        console.log('Added auth listeners');
         const that = this;
         this.firebase.auth().onAuthStateChanged((user) => {
             that.hasReceivedLoginStatus = true;
             if (user) {
-                console.log("we're signed in");
+                console.log("we're signed in with", user);
                 console.log(`${that.isLoggedIn()} login status`);
             } else {
                 console.log('not signed in..');
