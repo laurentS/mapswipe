@@ -1,76 +1,76 @@
 language: node_js
 node_js:
-  - "8.12"
+- '8.12'
 sudo: false
 env:
-  - NODE_ENV='test'
-  - FASTLANE_DISABLE_COLORS=1
+- NODE_ENV='test'
+- FASTLANE_DISABLE_COLORS=1
 script:
-  - yarn install
+- yarn install
 matrix:
   include:
-    - language: android
-      os: linux
-      jdk: oraclejdk8
-      sudo: required
-      node_js: false
-      before_install:
-        - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv -in secrets.tar.enc -out secrets.tar -d
-        - tar xvf secrets.tar
-        - nvm install node
-        - node --version
-        - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
-        - export PATH="$HOME/.yarn/bin:$PATH"
-      install:
-        - yarn install --frozen-lockfile
-      before_deploy:
-        - find . -name *.apk
-      deploy:
-        provider: releases
-        api_key:
-          secure: PAOPhK4V3QcD9xwe7doux5wbZBQ+9yI1PPVxEROKVL9F3ploddiXCCTteYrZRX3X/lwi0RshKZlLifPVwZNgnnLAMXpua/q5RWafiIN2HCT7u+Etju0baaLzXIzhh2ZLeDWfWf9y/na65Q1Ys4nZ9Fo4CiiZ5sqbLbb6pBhZrM7USc4+Ec8M8Av0kqULpDYfP16k2dOyyMhAbxz5boD6SWng3DY4bwygag5yL03UkqwsOssLYS4JtYeuandxPExb+R56JhI/mbiTyijoNYtIi/cPNkFm8S1DrLmcqrdFuF1i/F7GSRvu5pS7tXKWR9hAeXJDpCEAqRSJys80OLn3jy2n0ym93eYCXNtvasJrRy5teyh4d5dwbc9c5mEHjAJe+ftnyHkQGJuax1fJZCdnW3oGZam6H6/rpAcjtJ2bzmmeyk0Be9N2iYFlReMqrxwMUtCYcFzZSn9c39GNnyYzCDZwuRDUPn564i+JdaG5hsW16TY51pSHspuNT4nZLSCGpSbViLb2547L9sNyzqQmX8GYdE5/6lILdVX4SJJj5ihgyeMkP1ghsg8Gj4LD1OVxQTtOUWZ5LPT61kAfyz6F0GygYN+oiLev3KxGBm4EzrNmOgUChEAnA24+BKk25nnaHUBJqwoOXl2SczWjUDU8jAocr+Kt28yl+67ZrsL3U/o=
-        file: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
-        skip_cleanup: true
-        on:
-          all_branches: true
-          repo: laurentS/mapswipe
-          tags: true
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-28.0.2
-          - android-28
-          - android-27
-          - android-26
-          - extra-android-m2repository
-          - extra-google-google_play_services
-          - extra-google-m2repository
-          - addon-google_apis-google-27
-      script:
-        - yarn buildDev
-    - language: objective-c
-      os: osx
-      osx_image: xcode10.1
-      node_js: false
-      before_install:
-        - nvm install node
-        - node --version
-        - travis_retry npm install -g yarn
-        - yarn -version
-      install:
-        - bundle install
-        - travis_retry gem install xcpretty cocoapods
-        - travis_retry yarn install --frozen-lockfile
-      script:
-        - cd ios
-        - openssl aes-256-cbc -K $encrypted_4979e3271397_key -iv $encrypted_4979e3271397_iv -in cfg/GoogleService-Info.dev.plist.enc -out cfg/GoogleService-Info.dev.plist -d
-        - openssl aes-256-cbc -K $encrypted_4979e3271397_key -iv $encrypted_4979e3271397_iv -in cfg/GoogleService-Info.prd.plist.enc -out cfg/GoogleService-Info.prd.plist -d
-        - fastlane test
-      before_deploy: 
-      deploy:
-        provider: script
-        script: fastlane release
-        on:
-          branch: master
-          tags: true
+  - language: android
+    os: linux
+    jdk: oraclejdk8
+    sudo: required
+    node_js: false
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_81656b5e166a_key -iv $encrypted_81656b5e166a_iv
+      -in secrets.tar.enc -out secrets.tar -d
+    - tar xvf secrets.tar
+    - nvm install node
+    - node --version
+    - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+    - export PATH="$HOME/.yarn/bin:$PATH"
+    install:
+    - yarn install --frozen-lockfile
+    before_deploy:
+    - find . -name *.apk
+    deploy:
+      provider: releases
+      api_key:
+        secure: PAOPhK4V3QcD9xwe7doux5wbZBQ+9yI1PPVxEROKVL9F3ploddiXCCTteYrZRX3X/lwi0RshKZlLifPVwZNgnnLAMXpua/q5RWafiIN2HCT7u+Etju0baaLzXIzhh2ZLeDWfWf9y/na65Q1Ys4nZ9Fo4CiiZ5sqbLbb6pBhZrM7USc4+Ec8M8Av0kqULpDYfP16k2dOyyMhAbxz5boD6SWng3DY4bwygag5yL03UkqwsOssLYS4JtYeuandxPExb+R56JhI/mbiTyijoNYtIi/cPNkFm8S1DrLmcqrdFuF1i/F7GSRvu5pS7tXKWR9hAeXJDpCEAqRSJys80OLn3jy2n0ym93eYCXNtvasJrRy5teyh4d5dwbc9c5mEHjAJe+ftnyHkQGJuax1fJZCdnW3oGZam6H6/rpAcjtJ2bzmmeyk0Be9N2iYFlReMqrxwMUtCYcFzZSn9c39GNnyYzCDZwuRDUPn564i+JdaG5hsW16TY51pSHspuNT4nZLSCGpSbViLb2547L9sNyzqQmX8GYdE5/6lILdVX4SJJj5ihgyeMkP1ghsg8Gj4LD1OVxQTtOUWZ5LPT61kAfyz6F0GygYN+oiLev3KxGBm4EzrNmOgUChEAnA24+BKk25nnaHUBJqwoOXl2SczWjUDU8jAocr+Kt28yl+67ZrsL3U/o=
+      file: "./android/app/build/outputs/apk/dev/release/app-dev-release.apk"
+      skip_cleanup: true
+      on:
+        all_branches: true
+        repo: laurentS/mapswipe
+        tags: true
+    android:
+      components:
+      - tools
+      - platform-tools
+      - build-tools-28.0.2
+      - android-28
+      - android-27
+      - android-26
+      - extra-android-m2repository
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - addon-google_apis-google-27
+    script:
+    - yarn buildDev
+  - language: objective-c
+    os: osx
+    osx_image: xcode10.1
+    node_js: false
+    before_install:
+    - nvm install node
+    - node --version
+    - travis_retry npm install -g yarn
+    - yarn -version
+    - openssl aes-256-cbc -K $encrypted_b20c83b1102e_key -iv $encrypted_b20c83b1102e_iv -in ios/cfg/secrets.tar.enc -out ios/cfg/secrets.tar -d
+    install:
+    - bundle install
+    - travis_retry gem install xcpretty cocoapods
+    - travis_retry yarn install --frozen-lockfile
+    script:
+    - cd ios
+    - fastlane test
+    before_deploy: 
+    deploy:
+      provider: script
+      script: fastlane release
+      on:
+        branch: master
+        tags: true
