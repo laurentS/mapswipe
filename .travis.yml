@@ -52,7 +52,7 @@ matrix:
     - yarn buildDev
   - language: objective-c
     os: osx
-    osx_image: xcode10.1
+    osx_image: xcode9.3
     node_js: false
     before_install:
     - set -o pipefail
@@ -67,6 +67,7 @@ matrix:
     - travis_retry gem install xcpretty cocoapods
     - travis_retry yarn install --frozen-lockfile
     script:
+    - open -b com.apple.iphonesimulator
     - cd ios
     - cp "cfg/GoogleService-Info.dev.plist" "cfg/GoogleService-Info.plist"
     - fastlane test
